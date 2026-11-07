@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="cyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00f5ff" />
+      <stop offset="100%" stop-color="#0077fe" />
+    </linearGradient>
+    <linearGradient id="purpleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00d2ff" />
+      <stop offset="100%" stop-color="#8a2be2" />
+    </linearGradient>
+    <linearGradient id="lightGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#00f5ff" />
+    </linearGradient>
+    <filter id="neon" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#00f5ff" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- Modern dark rounded badge background -->
+  <rect x="6" y="6" width="116" height="116" rx="28" fill="#10141f" stroke="#00d2ff" stroke-width="2.5" />
+
+  <!-- Stylized Origami / Neon 'N' -->
+  <g filter="url(#neon)">
+    <!-- Sol Dikey Sütun -->
+    <polygon points="32,24 50,24 50,104 32,88" fill="url(#cyanGrad)" />
+    <!-- Orta Çapraz Şerit -->
+    <polygon points="46,24 82,88 82,104 46,40" fill="url(#purpleGrad)" />
+    <!-- Sağ Dikey Sütun -->
+    <polygon points="78,40 96,24 96,104 78,104" fill="url(#cyanGrad)" />
+    <!-- Üst Işıma Vurgusu -->
+    <polygon points="46,24 52,24 82,78 78,78" fill="url(#lightGrad)" opacity="0.75" />
+    <!-- Dinamik Ses Dalga Noktası -->
+    <circle cx="87" cy="96" r="3" fill="#00f5ff" />
+  </g>
+</svg>
