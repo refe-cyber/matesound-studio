@@ -431,22 +431,28 @@ class DeviceWatcher(QThread):
         builtin = next((d["name"] for d in devices if d["kind"] in ("builtin", "hp")), None)
 
         current_names = {d["name"] for d in devices}
+        non_hdmi = [d["name"] for d in devices if d["kind"] != "hdmi"]
         if self.known_sinks is None:
-            # İlk açılış: Bluetooth bağlıysa onu, değilse PC Hoparlörünü seç
+            # İlk açılış: Bluetooth bağlıysa onu, değilse PC Hoparlörünü seç (HDMI asla otomatik seçilmez)
             self.known_sinks = set(current_names)
             self.known_hp = hp
-            self.active_sink = bt or builtin or (devices[0]["name"] if devices else None)
+            self.active_sink = bt or builtin or (non_hdmi[0] if non_hdmi else None)
         else:
-            # Yeni bir USB / Bluetooth / HDMI aygıtı takıldıysa otomatik ona geç!
-            added = [d["name"] for d in devices if d["name"] not in self.known_sinks]
+            # Yeni bir ses aygıtı takıldıysa otomatik ona geç (HDMI monitör ve Dock uyanmaları HARİÇ!)
+            added = [
+                d["name"] for d in devices
+                if d["name"] not in self.known_sinks
+                and d["kind"] != "hdmi"
+                and "dock" not in d["name"].lower()
+            ]
             if added:
                 self.active_sink = added[0]
             elif hp != self.known_hp and builtin:
                 # 3.5mm kulaklık takıldı veya çıkarıldı
                 self.active_sink = builtin
             elif self.active_sink not in current_names:
-                # Seçili aygıt çıkarıldıysa PC hoparlörüne dön
-                self.active_sink = bt or builtin or (devices[0]["name"] if devices else None)
+                # Seçili aygıt çıkarıldıysa PC hoparlörüne dön (HDMI'ya düşme)
+                self.active_sink = bt or builtin or (non_hdmi[0] if non_hdmi else None)
 
             self.known_sinks = set(current_names)
             self.known_hp = hp
